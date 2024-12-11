@@ -1,0 +1,48 @@
+Service (MyAemService):
+
+This is a simple service that searches for a page using the fixed path /content/mysite/sample-page and returns its title. If the page is not found, the string "Page not found"is returned.
+
+JUnit tests:
+
+setUp—) - initializing mocks using Mockito. We create mockups for ResourceResolver and Resource, and configure their behavior (for example, we return the title for an existing page).
+testGetPageTitle—) - checks that the service retrieves the page title correctly.
+testPageNotFound—) - checks that the service correctly handles the case when the page was not found.
+
+Using SlingJunit5 and Mockito:
+
+SlingJunit5 is an extension for JUnit 5 that simplifies testing of AEM components by providing helper methods for working with the AEM environment.
+Mockito is used to create mocks and stubs that mimic the behavior of dependencies, such as ResourceResolver and Resource.
+
+Code Installing dependencies:
+
+<dependencies>
+    <!-- JUnit 5 for testing -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.7.0</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.7.0</version>
+        <scope>test</scope>
+    </dependency>
+    
+    <!-- Sling Mocks for AEM testing -->
+    <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>sling-mock</artifactId>
+        <version>2.4.0</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Mockito for creating stubs and mocks -->
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.8.0</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
