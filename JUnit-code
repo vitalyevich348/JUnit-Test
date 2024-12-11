@@ -1,0 +1,61 @@
+package com.example.aem.services;
+
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.wrappers.ValueMapDecorator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.apache.sling.testing.mock.sling.ResourceResolverType;
+import org.apache.sling.testing.mock.sling.junit5.SlingJunit5;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class MyAemServiceTest extends SlingJunit5 {
+
+    private MyAemService myAemService;
+    private ResourceResolver mockResourceResolver;
+    private Resource mockResource;
+
+    @BeforeEach
+    void setUp() {
+        // Initializing the service and moks
+        myAemService = new MyAemService();
+        
+        // Мы Используем ResourceResolver
+        mockResourceResolver = Mockito.mock(ResourceResolver.class);
+        
+        // Creating a page resource mock-up
+        mockResource = Mockito.mock(Resource.class);
+        
+        // Preparing a ValueMap for a page
+        ValueMapDecorator mockValueMap = new ValueMapDecorator();
+        mockValueMap.put("jcr:title", "Sample Page Title");
+        
+        // Configuring the mock for the returned resource
+        Mockito.when(mockResource.getValueMap()).thenReturn(mockValueMap);
+        
+        // We execute ResourceResolver
+        Mockito.when(mockResourceResolver.getResource("/content/mysite/sample-page")).thenReturn(mockResource);
+    }
+
+    @Test
+    void testGetPageTitle() {
+        // Executing a service method
+        String title = myAemService.getPageTitle(mockResourceResolver);
+        
+        // Checking the correctness of the result
+        assertEquals("Sample Page Title", title);
+    }
+
+    @Test
+    void testPageNotFound() {
+        // Configuring the ioc to return null if the page doesn't exist
+        Mockito.when(mockResourceResolver.getResource("/content/mysite/nonexistent-page")).thenReturn(null);
+        
+        // Executing a service method
+        String title = myAemService.getPageTitle(mockResourceResolver);
+        
+        // Checking whether the result is correct (if the page is not found)
+        assertEquals("Page not found", title);
+    }
+}
