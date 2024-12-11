@@ -1,0 +1,21 @@
+public class Palindrome {
+
+    public static boolean isPalindrome(String str) {
+        // Убираем пробелы и приводим строку к нижнему регистру
+        str = str.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        // Инициализируем два указателя
+        int left = 0;
+        int right = str.length() - 1;
+
+        // Проходим по строке с двух сторон и сравниваем символы
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;  // Если символы не совпадают, строка не палиндром
+            }
+            left++;
+            right--;
+        }
+        return true;  // Строка является палиндромом
+    }
+}
